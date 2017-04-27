@@ -9,6 +9,7 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -47,6 +48,7 @@ public class SpringSftpUploadDemoApplicationTests {
     }
 
     @Before
+    @After
     public void cleanSftpFolder() throws IOException {
         Files.walk(sftpFolder).filter(Files::isRegularFile).map(Path::toFile).forEach(File::delete);
     }
