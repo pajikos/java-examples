@@ -8,7 +8,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -24,7 +23,7 @@ import com.pavelsklenar.SftpConfig.UploadGateway;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@TestPropertySource(properties = { "sftp.port = 2223" })
+@TestPropertySource(properties = { "sftp.port = 10022" })
 public class SpringSftpUploadDemoApplicationTests {
 
     @Autowired
@@ -37,7 +36,7 @@ public class SpringSftpUploadDemoApplicationTests {
     @BeforeClass
     public static void startServer() throws Exception {
         server = new EmbeddedSftpServer();
-        server.setPort(2223);
+        server.setPort(10022);
         sftpFolder = Files.createTempDirectory("SFTP_UPLOAD_TEST");
         server.afterPropertiesSet();
         server.setHomeFolder(sftpFolder);
