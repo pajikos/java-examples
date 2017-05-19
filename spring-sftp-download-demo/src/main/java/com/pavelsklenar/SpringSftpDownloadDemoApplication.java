@@ -8,9 +8,9 @@ import org.springframework.integration.config.EnableIntegration;
 @SpringBootApplication
 @IntegrationComponentScan
 @EnableIntegration
-public class SpringSftpUploadDemoApplication {
+public class SpringSftpDownloadDemoApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SpringSftpUploadDemoApplication.class, args);
+        SpringApplication.run(SpringSftpDownloadDemoApplication.class, args);
     }
 }
