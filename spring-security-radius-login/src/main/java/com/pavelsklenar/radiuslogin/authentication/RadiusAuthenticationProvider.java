@@ -22,7 +22,6 @@ import org.tinyradius.packet.RadiusPacket;
  */
 public class RadiusAuthenticationProvider implements AuthenticationProvider {
 
-
 	private static final Logger logger = LoggerFactory.getLogger(RadiusAuthenticationProvider.class);
 
 	@Value("${com.pavelsklenar.radius.server}")
@@ -40,34 +39,32 @@ public class RadiusAuthenticationProvider implements AuthenticationProvider {
 
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-		String name = authentication.getName();
-		String password = authentication.getCredentials().toString();
-		return authenticateInternally(name, password);
-	}
-
-	private Authentication authenticateInternally(String username, String password) {
+		String username = authentication.getName();
 		RadiusPacket response = null;
 		int attemptCount = 0;
 		while (response == null && attemptCount++ < clients.size()) {
-			Client client = clients.get(attemptCount - 1);
-			logger.info("Calling radius server to authenticate user {}", username);
-			try {
-				response = client.authenticate(username, password);
-			} catch (Exception e) {
-				logger.error("Exception when calling remote radius server.", e);
-			}
+			response = authenticateInternally(clients.get(attemptCount - 1), username,
+					authentication.getCredentials().toString());
 		}
-
 		if (response == null) {
 			logger.warn("User {}, calling radius does not return any value.", username);
 			return null;
 		}
-
 		if (response.getPacketType() == RadiusPacket.ACCESS_ACCEPT) {
 			logger.info("User {} successfully authenticated using radius", username);
 			return new UsernamePasswordAuthenticationToken(username, "", new ArrayList<>());
 		} else {
 			logger.warn("User {}, returned response {}", username, response);
+			return null;
+		}
+	}
+
+	private RadiusPacket authenticateInternally(Client client, String username, String password) {
+		logger.info("Calling radius server to authenticate user {}", username);
+		try {
+			return client.authenticate(username, password);
+		} catch (Exception e) {
+			logger.error("Exception when calling remote radius server.", e);
 			return null;
 		}
 	}

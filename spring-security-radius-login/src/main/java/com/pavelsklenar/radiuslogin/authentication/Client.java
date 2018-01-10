@@ -17,10 +17,8 @@ import org.tinyradius.util.RadiusException;
  */
 public class Client {
 
-    private static final String CALLING_STATION_ID = "Calling-Station-Id";
     private static final String NAS_IP_ADDRESS = "NAS-IP-Address";
     private static final String NAS_PORT_ID = "NAS-Port-Id";
-    private static final String RADIUS_ID = "MY_RADIUS_ID";
     private RadiusClient radiusClient;
 
     public Client(RadiusServer radiusServer) {
@@ -30,8 +28,8 @@ public class Client {
     private RadiusClient initRadiusClient(RadiusServer radiusServer)  {
     	try {
     		RadiusClient radiusClient = new RadiusClient(radiusServer.getIp(), radiusServer.getSecret());
-        	// Set SO Timeout in milliseconds (originally in seconds)
-			radiusClient.setSocketTimeout(radiusServer.getTimeout() * 1000);
+        	// Set SO Timeout in milliseconds
+			radiusClient.setSocketTimeout(radiusServer.getTimeout());
 			return radiusClient;
 		} catch (SocketException e) {
 			throw new IllegalStateException(e);
@@ -43,11 +41,9 @@ public class Client {
 
         ar.setAuthProtocol(AccessRequest.AUTH_PAP);
 
-        ar.addAttribute(NAS_PORT_ID, RADIUS_ID);
+        ar.addAttribute(NAS_PORT_ID, InetAddress.getLocalHost().getHostAddress());
 
-        ar.addAttribute(NAS_IP_ADDRESS, InetAddress.getLocalHost().getHostAddress());
-
-        ar.addAttribute(CALLING_STATION_ID, InetAddress.getLocalHost().getHostAddress());
+        ar.addAttribute(NAS_IP_ADDRESS, "172.25.0.101");
 
         RadiusPacket response = radiusClient.authenticate(ar);
         return response;
