@@ -10,18 +10,18 @@ import org.tinyradius.util.RadiusClient;
 import org.tinyradius.util.RadiusException;
 
 /**
- * Client class is responsible for communication with a remote radius server
+ * NetworkAccessServer (NAS) class is responsible for communication with a remote radius server
  *
  * @author pavel.sklenar
  *
  */
-public class Client {
+public class NetworkAccessServer {
 
     private static final String NAS_IP_ADDRESS = "NAS-IP-Address";
     private static final String NAS_PORT_ID = "NAS-Port-Id";
     private RadiusClient radiusClient;
 
-    public Client(RadiusServer radiusServer) {
+    public NetworkAccessServer(RadiusServer radiusServer) {
     	this.radiusClient = initRadiusClient(radiusServer);
     }
     

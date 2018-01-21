@@ -27,13 +27,13 @@ public class RadiusAuthenticationProvider implements AuthenticationProvider {
 	@Value("${com.pavelsklenar.radius.server}")
 	private String serverConfigurationToken;
 
-	private List<Client> clients = new ArrayList<>();
+	private List<NetworkAccessServer> clients = new ArrayList<>();
 
 	@PostConstruct
 	public void initServers() {
 		List<RadiusServer> servers = RadiusUtil.parseServerConfigurationToken(serverConfigurationToken);
 		servers.forEach(it -> {
-			clients.add(new Client(it));
+			clients.add(new NetworkAccessServer(it));
 		});
 	}
 
@@ -59,7 +59,7 @@ public class RadiusAuthenticationProvider implements AuthenticationProvider {
 		}
 	}
 
-	private RadiusPacket authenticateInternally(Client client, String username, String password) {
+	private RadiusPacket authenticateInternally(NetworkAccessServer client, String username, String password) {
 		logger.info("Calling radius server to authenticate user {}", username);
 		try {
 			return client.authenticate(username, password);
