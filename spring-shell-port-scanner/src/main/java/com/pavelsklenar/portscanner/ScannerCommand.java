@@ -24,7 +24,7 @@ public class ScannerCommand {
     @ShellMethod(value = "Scan open ports for a specific IP address")
     public String scan(
             @ShellOption(help = "IP address") String ip,
-            @ShellOption(help = "Port or port range, e.g. 1-1024") String port,
+            @ShellOption(help = "Specific port or port range, e.g. 1-1024") String port,
             @ShellOption(help = "Weather only open ports should be displayed") boolean displayOnlyOpen
     ) throws ExecutionException, InterruptedException {
         //Add all required ports into port scanner
