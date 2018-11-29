@@ -10,12 +10,11 @@ import com.pavelsklenar.rest.pojo.Customer;
 
 @RestController
 @RequestMapping("/customer")
-
 public class CustomerController {
 
     @GetMapping("/{id}")
     @Secured("ROLE_USER")
     public Customer GetCustomer(@PathVariable Long id) {
-        return new Customer(id, "" + id.hashCode());
+        return new Customer(id, "Customer" + id);
     }
 }
