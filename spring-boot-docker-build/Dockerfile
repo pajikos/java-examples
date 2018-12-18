@@ -12,7 +12,7 @@ RUN mvn -B dependency:resolve dependency:resolve-plugins
 #Copy source code
 COPY src /build/src
 # Build application
-#RUN mvn package
+RUN mvn package
 
 
 FROM openjdk:11-slim as runtime
