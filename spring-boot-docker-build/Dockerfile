@@ -15,7 +15,7 @@ COPY src /build/src
 RUN mvn package
 
 
-FROM openjdk:11-slim as runtime
+FROM openjdk:11.0.16-slim as runtime
 EXPOSE 8080
 #Set app home folder
 ENV APP_HOME /app
